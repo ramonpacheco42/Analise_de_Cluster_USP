@@ -3,10 +3,12 @@
 import pandas as pd
 import numpy as np
 import math
+import matplotlib.pyplot as plt
 from scipy.spatial.distance import pdist, squareform
 from scipy.cluster.hierarchy import linkage, dendrogram
 from scipy.cluster.hierarchy import fcluster
 from scipy.stats import f_oneway
+from sklearn.cluster import KMeans
 # %%
 # Criando as colunas do DataFrame
 estudantes = pd.Series(['Gabriela','Luiz Felipe','Patricia','Ovídio','Leonor'], name='Estudantes')
@@ -24,6 +26,17 @@ df
 # Criando novo dataframe contendo somente as notas dos alunos
 notas = df[['Matematica', 'Fisica', 'Quimica']]
 notas
+# %%
+sns.boxplot(data=df.iloc[:,1:])
+
+# adicionando título e rótulos dos eixos
+plt.title("Distribuição das notas em Matemática, Física e Química")
+plt.xlabel("Disciplinas")
+plt.ylabel("Notas")
+
+# exibindo o gráfico
+plt.show()
+
 # %%
 # Criando a função que cácula a distancia euclidiana
 def dist_euclidiana(row1, row2):
@@ -80,13 +93,14 @@ df_euclidiana = df_distancias['Distância Euclidiana']
 df_euclidiana
 # %%
 # Cálculando a distância euclidiama de uma maneira mais rápida usando a biblíoteca Scipy
-#dist_matrix = squareform(pdist(df.iloc[:, 1:], metric='euclidean'))
+dist_matrix = pdist(df.iloc[:, 1:], metric='euclidean')
+dist_matrix
+# %%
 # Realiza a clusterização utilizando o método single linkage
 Z = linkage(df_euclidiana, method='single')
 # Percorre a matriz de linkage e exibe as informações de cada estágio
 for i, row in enumerate(Z):
     print(f"Estágio {i}: elementos {int(row[0])} e {int(row[1])}, distância {row[2]}")
-
 # Exibe o dendrograma
 dendrogram(Z, labels=df['Estudantes'].values)
 # %%
@@ -138,7 +152,7 @@ dendrogram(Z, labels=df['Estudantes'].values)
 grupos = fcluster(Z, 3, criterion='maxclust')
 
 # Adiciona os grupos ao DataFrame original
-df['Grupo'] = grupos
+df['Cluster_H'] = grupos
 
 # Exibe o resultado
 print(df)
@@ -152,7 +166,39 @@ dendrogram(Z, labels=df['Estudantes'].values)
 grupos = fcluster(Z, 2, criterion='maxclust')
 
 # Adiciona os grupos ao DataFrame original
-df['Grupo'] = grupos
+df['Cluster_MAX'] = grupos
 
 # Exibe o resultado
 print(df)
+# %%
+X = df.iloc[:, 1:].values
+sum_of_squared_distances = []
+
+# Definir o número de clusters que queremos testar
+K = range(1, 6)
+
+# Calcular a soma das distâncias quadráticas intra-cluster para cada valor de K
+for k in K:
+    km = KMeans(n_clusters=k)
+    km = km.fit(X)
+    sum_of_squared_distances.append(km.inertia_)
+
+# Plotar o gráfico
+plt.plot(K, sum_of_squared_distances, 'bx-')
+plt.xlabel('k')
+plt.ylabel('Soma das distâncias quadráticas intra-cluster')
+plt.title('Método Elbow para determinar o número de clusters')
+plt.show()
+# %%
+# Definir o número de clusters
+k = 3
+
+# Treinar o modelo K-means
+kmeans = KMeans(n_clusters=k, random_state=0).fit(X)
+
+# Adicionar os rótulos dos clusters ao DataFrame original
+df['Cluster_K'] = kmeans.labels_
+
+# Imprimir o DataFrame
+print(df)
+# %%
