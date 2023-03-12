@@ -69,55 +69,55 @@ paises
 # Tabela ANOVA
 import statsmodels.api as sm
 from statsmodels.formula.api import ols
-# Crie o modelo ANOVA - variável child_mort
+# Cria o modelo ANOVA - variável child_mort
 formula = "child_mort ~ C(Cluster)" 
 modelo = ols(formula, paises).fit()
 anova_tabela = sm.stats.anova_lm(modelo, typ=2)
 anova_tabela
 # %%
-# Crie o modelo ANOVA - variável exports
+# Cria o modelo ANOVA - variável exports
 formula = "exports ~ C(Cluster)" 
 modelo = ols(formula, paises).fit()
 anova_tabela = sm.stats.anova_lm(modelo, typ=2)
 anova_tabela
 # %%
-# Crie o modelo ANOVA - variável health
+# Cria o modelo ANOVA - variável health
 formula = "health ~ C(Cluster)" 
 modelo = ols(formula, paises).fit()
 anova_tabela = sm.stats.anova_lm(modelo, typ=2)
 anova_tabela
 # %%
-# Crie o modelo ANOVA - variável imports
+# Cria o modelo ANOVA - variável imports
 formula = "imports ~ C(Cluster)" 
 modelo = ols(formula, paises).fit()
 anova_tabela = sm.stats.anova_lm(modelo, typ=2)
 anova_tabela
 # %%
-# Crie o modelo ANOVA - variável income
+# Cria o modelo ANOVA - variável income
 formula = "income ~ C(Cluster)" 
 modelo = ols(formula, paises).fit()
 anova_tabela = sm.stats.anova_lm(modelo, typ=2)
 anova_tabela
 # %%
-# Crie o modelo ANOVA - variável inflation
+# Cria o modelo ANOVA - variável inflation
 formula = "inflation ~ C(Cluster)" 
 modelo = ols(formula, paises).fit()
 anova_tabela = sm.stats.anova_lm(modelo, typ=2)
 anova_tabela
 # %%
-# Crie o modelo ANOVA - variável life_expec
+# Cria o modelo ANOVA - variável life_expec
 formula = "life_expec ~ C(Cluster)" 
 modelo = ols(formula, paises).fit()
 anova_tabela = sm.stats.anova_lm(modelo, typ=2)
 anova_tabela
 # %%
-# Crie o modelo ANOVA - variável total_fer
+# Cria o modelo ANOVA - variável total_fer
 formula = "total_fer ~ C(Cluster)" 
 modelo = ols(formula, paises).fit()
 anova_tabela = sm.stats.anova_lm(modelo, typ=2)
 anova_tabela
 # %%
-# Crie o modelo ANOVA - variável gdpp
+# Cria o modelo ANOVA - variável gdpp
 formula = "gdpp ~ C(Cluster)" 
 modelo = ols(formula, paises).fit()
 anova_tabela = sm.stats.anova_lm(modelo, typ=2)
